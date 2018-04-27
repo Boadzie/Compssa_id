@@ -1,4 +1,5 @@
 <?php
+	include("../../includes/sessions.php");
 	include("../../includes/db_connection.php");
 	include("../../includes/functions.php");
 
@@ -17,7 +18,7 @@
 			$query = "SELECT * FROM admin WHERE username = '{$username}' && pass = '{$pass}' ";
 			$admin_set = mysqli_query($connection, $query);
 
-			if (!admin_set) {
+			if (!$admin_set) {
 				echo "Database query failed!";
 			}
 
@@ -30,13 +31,6 @@
 
 
 		}
-
-		// if (isset($_POST["username"]) && $_POST["username"] !== "") {
-		// 	$username = $_POST["username"];
-		// } else {
-		// 	$errors[] = "Username can't be blank";
-		// }
-
 	}
 ?>
 <!DOCTYPE html>

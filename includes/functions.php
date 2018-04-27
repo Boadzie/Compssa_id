@@ -35,4 +35,10 @@ function redirect_to($location) {
 	header("Location: " . $location);
 }
 
+function confirm_query($result) {
+	if (!$result) {
+		echo "Database query failed";
+	}
+}
+
 ?>
