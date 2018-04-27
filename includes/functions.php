@@ -41,4 +41,21 @@ function confirm_query($result) {
 	}
 }
 
+function confirm_admin_login() {
+	if (!isset($_SESSION["admin_id"])) {
+		redirect_to("login.php");
+	}
+}
+
+function find_all_students() {
+	global $connection;
+
+	$query = "SELECT * FROM students";
+	$student_set = mysqli_query($connection, $query);
+	confirm_query($student_set);
+
+	return $student_set;
+}
+
+
 ?>

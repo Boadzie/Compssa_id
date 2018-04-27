@@ -5,6 +5,17 @@
 
 	confirm_admin_login();
 
+	if (isset($_GET["student_id"])) {
+		$student_id = $_GET["student_id"];
+	}
+
+
+	// FIND STUDENT BASED ON ID
+	$find_student = "SELECT * FROM students WHERE id = $student_id";
+	$student_set = mysqli_query($connection, $find_student);
+	$student = mysqli_fetch_assoc($student_set);
+
+
 	if (isset($_POST["submit"])) {
 		// TRACK ERRORS
 		$errors = array();
@@ -21,16 +32,18 @@
 			$email        = escape_string($_POST["email"]);
 			$phone_number = escape_string($_POST["phone_number"]);
 
-			$query  = "INSERT INTO students (first_name, last_name, index_number, email, phone_number) ";
-			$query .= "VALUES ('{$first_name}', '{$last_name}', '{$index_number}', '{$email}', '{$phone_number}')";
+			$query  = "UPDATE students SET ";
+			$query .= "first_name = '{$first_name}', last_name = '{$index_number}', ";
+			$query .= "email = '{$email}', phone_number = '{$phone_number}' WHERE id = ";
+			$query .= "$student_id LIMIT 1";
 
 			$results = mysqli_query($connection, $query);
 
 			if ($results) {
-				$_SESSION["message"] = "Student Added Successfully";
+				$_SESSION["message"] = "Student Updated Successfully";
 				redirect_to("index.php");
 			} else {
-				$errors[] = "Failed to create new Student";
+				$errors[] = "Failed to update new Student";
 			}
 		}
 
@@ -58,30 +71,30 @@
 			<p>
 				First Name:
 				<input type="text" name="first_name" 
-				value="<?php if(isset($_POST["first_name"])) {echo $_POST["first_name"];} ?>">
+				value="<?php echo $student["first_name"]; ?>">
 			</p>
 			<p>
 				Last Name:
 				<input type="text" name="last_name" 
-				value="<?php if(isset($_POST["last_name"])) {echo $_POST["last_name"];} ?>">
+				value="<?php echo $student["last_name"]; ?>">
 			</p>
 			<p>
 				Student ID:
 				<input type="text" name="index_number" 
-				value="<?php if(isset($_POST["index_number"])) {echo $_POST["index_number"];} ?>">
+				value="<?php echo $student["index_number"]; ?>">
 			</p>
 			<p>
 				Email: 
 				<input type="email" name="email" 
-				value="<?php if(isset($_POST["email"])) {echo $_POST["email"];} ?>">
+				value="<?php echo $student["email"]; ?>">
 			</p>
 			<p>
 				Phone Number: 
 				<input type="text" name="phone_number" 
-				value="<?php if(isset($_POST["phone_number"])) {echo $_POST["phone_number"];} ?>">
+				value="<?php echo $student["phone_number"]; ?>">
 			</p>
 			<p>
-				<input type="submit" name="submit" value="Add Student">
+				<input type="submit" name="submit" value="Edit Student">
 				<a href="students.php">Cancel</a>
 			</p>
 		</fieldset>

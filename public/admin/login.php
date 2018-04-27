@@ -22,7 +22,9 @@
 				echo "Database query failed!";
 			}
 
+			// LOGIN
 			if ($admin = mysqli_fetch_assoc($admin_set)) {
+				$_SESSION["admin_id"] = $admin["id"];
 				$_SESSION["username"] = $admin["username"];
 				redirect_to("index.php");
 			} else {
@@ -53,7 +55,8 @@
 		<fieldset>
 			<p>
 				Username:
-				<input type="text" name="username">
+				<input type="text" name="username" 
+				value="<?php if(isset($_POST["username"])) {echo $_POST["username"];} ?>">
 			</p>
 			<p>
 				Password:
